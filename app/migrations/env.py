@@ -12,6 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.core.config import settings
 from app.models.base_models import Base
+# Добавляем модели, чтобы они корректно отобразились при миграции
+from app.models.table import TableORM #noqa
+from app.models.reservation import ReservationORM #noqa
 
 #Импортируем модели для корректной работы с миграциями
 

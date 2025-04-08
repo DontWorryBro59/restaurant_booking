@@ -1,8 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.routers.reserv_router import reservation_router
 from app.routers.tables_router import tables_router
+from app.routers.reserv_router import reservation_router
+
 
 app = FastAPI()
 

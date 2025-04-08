@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 
 class ReservationBase(BaseModel):
@@ -23,9 +23,7 @@ class ReservationCreate(ReservationBase):
 class ReservationRead(ReservationBase):
     id: int
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = ConfigDict(from_attributes=True)
 
 class ReservationUpdate(BaseModel):
     customer_name: Optional[str] = None

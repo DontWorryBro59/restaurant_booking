@@ -1,10 +1,8 @@
 from typing import Optional, List
-
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from app.models.base_models import Base
-
+from app.models.reservation import ReservationORM
 
 class TableORM(Base):
     __tablename__ = "tables"
@@ -14,6 +12,6 @@ class TableORM(Base):
     seats: Mapped[int] = mapped_column(nullable=False)
     location: Mapped[Optional[str]] = mapped_column(String)
 
-    reservations: Mapped[List["ReservationORM"]] = relationship(
+    reservations: Mapped[List[ReservationORM]] = relationship(
         back_populates="table", cascade="all, delete-orphan"
     )

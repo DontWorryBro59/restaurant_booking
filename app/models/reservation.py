@@ -1,8 +1,6 @@
 from datetime import datetime
-
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from app.models.base_models import Base
 
 
@@ -16,3 +14,6 @@ class ReservationORM(Base):
     duration_minutes: Mapped[int] = mapped_column(nullable=False)
 
     table: Mapped["TableORM"] = relationship(back_populates="reservations")
+
+    class Config:
+        orm_mode = True

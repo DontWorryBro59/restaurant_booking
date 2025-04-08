@@ -1,3 +1,5 @@
+import os
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -5,15 +7,25 @@ from sqlalchemy import pool
 
 from alembic import context
 
+# Добавляем в переменную пути к папкам с моделями и репозиториями
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.core.config import settings
+from app.models.base_models import Base
+
+#Импортируем модели для корректной работы с миграциями
+
 
 config = context.config
+
+config.set_main_option("sqlalchemy.url", f"{settings.get_db_url}?async_fallback=True")
 
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 
-target_metadata = None
+target_metadata = Base.metadata
 
 
 

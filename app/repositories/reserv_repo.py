@@ -21,22 +21,29 @@ class ReservRepo:
         reservation_models = await session.execute(query)
         logger.info("Список всех столов получен")
         reservation_models = reservation_models.scalars().all()
-        reservations_list = [ReservationRead.model_validate(reservation) for reservation in reservation_models]
+        reservations_list = [
+            ReservationRead.model_validate(reservation)
+            for reservation in reservation_models
+        ]
         return reservations_list
 
     @classmethod
-    async def create_reservation(cls, new_reservation: ReservationCreate, session: AsyncSession) -> str:
+    async def create_reservation(
+        cls, new_reservation: ReservationCreate, session: AsyncSession
+    ) -> str:
         """Создать новое бронирование"""
         logger.info("Создание нового бронирования")
         # Проверяем наличие конфликта бронирования в базе данных
-        conflict = await cls.check_reservation_conflict(session=session,
-                                                        table_id=new_reservation.table_id,
-                                                        reservation_time=new_reservation.reservation_time,
-                                                        duration_minutes=new_reservation.duration_minutes)
+        conflict = await cls.check_reservation_conflict(
+            session=session,
+            table_id=new_reservation.table_id,
+            reservation_time=new_reservation.reservation_time,
+            duration_minutes=new_reservation.duration_minutes,
+        )
         if conflict:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Бронирование пересекается с существующим бронированием"
+                detail="Бронирование пересекается с существующим бронированием",
             )
         # Создаем новое бронирование и сохраняем его в базе данных
         new_reservation = ReservationORM(**new_reservation.model_dump())
@@ -47,7 +54,9 @@ class ReservRepo:
         return message
 
     @classmethod
-    async def delete_reservation(cls, reservation_id: int, session: AsyncSession) -> str:
+    async def delete_reservation(
+        cls, reservation_id: int, session: AsyncSession
+    ) -> str:
         """Удалить бронирование по id"""
         logger.info("Удаление бронирования по id={}".format(reservation_id))
         # Получаем бронирование по указанному id
@@ -68,8 +77,9 @@ class ReservRepo:
         return message
 
     @classmethod
-    async def check_reservation_conflict(cls, session, table_id: int, reservation_time: datetime,
-                                         duration_minutes: int) -> bool:
+    async def check_reservation_conflict(
+        cls, session, table_id: int, reservation_time: datetime, duration_minutes: int
+    ) -> bool:
         new_start = reservation_time
         new_end = reservation_time + timedelta(minutes=duration_minutes)
 
@@ -81,9 +91,7 @@ class ReservRepo:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
 
         # Получаем все брони по указанному столику
-        query = select(ReservationORM).where(
-            ReservationORM.table_id == table_id
-        )
+        query = select(ReservationORM).where(ReservationORM.table_id == table_id)
         result = await session.execute(query)
         reservations = result.scalars().all()
 

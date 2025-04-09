@@ -38,7 +38,6 @@ class ReservationCreate(ReservationBase):
         return value
 
 
-
 class ReservationRead(ReservationBase):
     id: int
 

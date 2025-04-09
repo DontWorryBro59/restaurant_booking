@@ -27,10 +27,10 @@ async def create_new_table(new_table: TableCreate, session=Depends(db_helper.get
     return MessageSchema(message=message)
 
 
-@tables_router.delete('/{id}')
-async def delete_table(id: int = Path(..., gt=0, description="ID стола, должен быть больше нуля"),
+@tables_router.delete('/{table_id}')
+async def delete_table(table_id: int = Path(..., gt=0, description="ID стола, должен быть больше нуля"),
                        session=Depends(db_helper.get_session)) -> MessageSchema:
     """Удаляем стол по id"""
     logger.info("Использование роутера для удаления стола по id")
-    message = await TableRepo.delete_table(table_id=id, session=session)
+    message = await TableRepo.delete_table(table_id=table_id, session=session)
     return MessageSchema(message=message)

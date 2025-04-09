@@ -23,8 +23,8 @@ async def create_new_reservation(new_reservation: ReservationCreate,
     return MessageSchema(message=message)
 
 
-@reservation_router.delete('/{id}')
-async def delete_reservation(id: int, session=Depends(db_helper.get_session)) -> MessageSchema:
+@reservation_router.delete('/{reservation_id}')
+async def delete_reservation(reservation_id: int, session=Depends(db_helper.get_session)) -> MessageSchema:
     """Удаление существующего бронирование"""
-    message = await ReservRepo.delete_reservation(reservation_id=id, session=session)
+    message = await ReservRepo.delete_reservation(reservation_id=reservation_id, session=session)
     return MessageSchema(message=message)

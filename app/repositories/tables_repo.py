@@ -51,3 +51,17 @@ class TableRepo:
         message = "Стол с id = {} успешно удален".format(table_id)
         logger.info(message)
         return message
+
+    @classmethod
+    async def get_table_by_id(cls, table_id: int, session: AsyncSession) -> TableRead:
+        """Получить стол по id"""
+        logger.info(f"Получение стола по id = {table_id}")
+        query = select(TableORM).where(TableORM.id == table_id)
+        result = await session.execute(query)
+        table_model = result.scalars().first()
+        if table_model is None:
+            message = "Стол с id = {} не найден".format(table_id)
+            logger.info(message)
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
+        table = TableRead.model_validate(table_model)
+        return table

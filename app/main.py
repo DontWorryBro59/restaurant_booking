@@ -14,19 +14,20 @@ logger = get_logger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("🚀 Application startup")
+    logger.info("🚀 Приложение запускается")
     # Выполняем дополнительные действия в зависимости от режима работы
     await check_app_mode()
     yield
-    logger.info("🛑 Application shutdown")
+    logger.info("🛑 Приложение останавливается")
 
 
 async def check_app_mode():
     if settings.MODE == "DEV":
-        logger.info("💻💻💻💻 Dev mode enabled 💻💻💻💻")
-        logger.info("Dropping database tables")
+        logger.info("💻💻💻💻 Приложение находится в режиме разработки 💻💻💻💻")
+        logger.info("Запущен процесс очистки и создания таблиц")
+        logger.info("Удаляем все таблицы в базе данных")
         await db_helper._drop_all()
-        logger.info("Creating database tables")
+        logger.info("Создаем все таблицы в базе данных")
         await db_helper._create_all()
 
 

@@ -33,35 +33,33 @@ class TableRepo:
         return message
 
     @classmethod
-    async def delete_table(cls, table_id: int, session: AsyncSession) -> str:
-        """Удалить стол по id"""
-        logger.info(f"Удаление стола по id = {table_id}")
+    async def _get_table(cls, table_id: int, session: AsyncSession) -> TableORM:
+        """Получить ORM-модель стола по id (внутренний метод)"""
+        logger.info(f"Получение ORM-модели стола по id = {table_id}")
         query = select(TableORM).where(TableORM.id == table_id)
         result = await session.execute(query)
         table_model = result.scalars().first()
         if table_model is None:
-            message = "Стол с id = {} не найден".format(table_id)
+            message = f"Стол с id = {table_id} не найден"
             logger.info(message)
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
-
-        # Удаляем стол из базы данных
-        delete_query = delete(TableORM).where(TableORM.id == table_id)
-        await session.execute(delete_query)
-        await session.commit()
-        message = "Стол с id = {} успешно удален".format(table_id)
-        logger.info(message)
-        return message
+        return table_model
 
     @classmethod
     async def get_table_by_id(cls, table_id: int, session: AsyncSession) -> TableRead:
-        """Получить стол по id"""
-        logger.info(f"Получение стола по id = {table_id}")
-        query = select(TableORM).where(TableORM.id == table_id)
-        result = await session.execute(query)
-        table_model = result.scalars().first()
-        if table_model is None:
-            message = "Стол с id = {} не найден".format(table_id)
-            logger.info(message)
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
-        table = TableRead.model_validate(table_model)
-        return table
+        """Получить стол по id (схема)"""
+        table_model = await cls._get_table(table_id, session)
+        return TableRead.model_validate(table_model)
+
+    @classmethod
+    async def delete_table(cls, table_id: int, session: AsyncSession) -> str:
+        """Удалить стол по id"""
+        await cls._get_table(table_id, session)  # просто существования стола
+
+        delete_query = delete(TableORM).where(TableORM.id == table_id)
+        await session.execute(delete_query)
+        await session.commit()
+
+        message = f"Стол с id = {table_id} успешно удален"
+        logger.info(message)
+        return message

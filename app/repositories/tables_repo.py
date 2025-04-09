@@ -1,12 +1,10 @@
 from fastapi import HTTPException, status
-
 from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.custom_logger import get_logger
 from app.models.table import TableORM
 from app.schemas.tables_sch import TableRead, TableCreate
-
-from app.core.custom_logger import get_logger
 
 logger = get_logger(__name__)
 

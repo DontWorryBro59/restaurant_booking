@@ -13,12 +13,12 @@ logger = get_logger(__name__)
 
 if settings.MODE == "TEST":
     DATABASE_URL = settings.get_db_url_test
-    logger.info("Using test database")
+    logger.info("Используется тестовая база данных")
 elif settings.MODE in ["DEV", "PROD"]:
     DATABASE_URL = settings.get_db_url
-    logger.warning("Using production database")
+    logger.warning("Внимание! Используется 'боевая' база данных")
 else:
-    raise ValueError("Invalid MODE value")
+    raise ValueError("Неверное значение переменной окружения 'MODE'")
 
 # Создаем асинхронный движок
 async_engine = create_async_engine(DATABASE_URL, echo=settings.DB_ECHO)

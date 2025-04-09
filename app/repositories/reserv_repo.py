@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.custom_logger import get_logger
 from app.models.reservation import ReservationORM
-from app.schemas.reservations_sch import ReservationRead, ReservationCreate
 from app.repositories.tables_repo import TableRepo
+from app.schemas.reservations_sch import ReservationRead, ReservationCreate
 
 logger = get_logger(__name__)
 
@@ -62,6 +62,10 @@ class ReservRepo:
         # Удаляем бронирование из базы данных
         delete_query = delete(ReservationORM).where(ReservationORM.id == reservation_id)
         await session.execute(delete_query)
+        await session.commit()
+        message = "Бронирование с id = {} успешно удалено".format(reservation_id)
+        logger.info(message)
+        return message
 
     @classmethod
     async def check_reservation_conflict(cls, session, table_id: int, reservation_time: datetime,
@@ -92,4 +96,3 @@ class ReservRepo:
                 return True
 
         return False
-

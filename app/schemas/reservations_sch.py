@@ -15,6 +15,10 @@ class ReservationBase(BaseModel):
     reservation_time: datetime
     duration_minutes: int = Field(..., ge=15, le=300)
 
+
+class ReservationCreate(ReservationBase):
+    pass
+
     @field_validator("reservation_time")
     def validate_reservation_time(cls, value: datetime) -> datetime:
         # Проверка наличия информации о временной зоне
@@ -34,9 +38,6 @@ class ReservationBase(BaseModel):
         return value
 
 
-class ReservationCreate(ReservationBase):
-    pass
-
 
 class ReservationRead(ReservationBase):
     id: int
@@ -44,7 +45,7 @@ class ReservationRead(ReservationBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class ReservationUpdate(BaseModel):
+class ReservationUpdate(ReservationCreate):
     customer_name: Optional[str] = None
     table_id: Optional[int] = None
     reservation_time: Optional[datetime] = None

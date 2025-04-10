@@ -1,12 +1,9 @@
 <p align="center">
-  <img src="doc/doc-logo.png" alt="Restaurant Booking Logo" width="150"/>
+  <img src="doc/doc-logo.png" alt="Restaurant Booking Logo" width="350"/>
 </p>
 
 <h1 align="center">Restaurant Booking API</h1>
 
-<p align="center">
-  Минималистичный сервис бронирования столиков в ресторане на FastAPI.
-</p>
 
 ## Содержание
 
@@ -20,6 +17,7 @@
   - [Шаг 3: Запуск контейнеров](#шаг-3-запуск-контейнеров)
 - [Интерфейс Swagger API](#интерфейс-swagger-api)
 - [Тестирование](#тестирование)
+- [Скриншоты](#скриншоты)
 
 ## Описание проекта
 
@@ -186,4 +184,18 @@ pytest
 ```
 Для тестирования приложения необходимо наличие БД по подключению (restaurant_booking_test)
 Тесты находятся в директории `tests/` и покрывают основные функции API, включая бронирование и т.д.
+
+## Скриншоты
+
+<h1 align="center">Swagger-документация</h1>
+<p align="center">
+  <img src="doc/docs.png" alt="Swagger-документация"/>
+</p>
+
+
+<h1 align="center">Тесты</h1>
+<p align="center">
+  <img src="doc/test.png" alt="Тесты"/>
+</p>
+
 

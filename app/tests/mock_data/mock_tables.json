@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Table 1",
+    "seats": 4,
+    "location": "Столик у окна"
+  },
+  {
+    "name": "Table 2",
+    "seats": 6,
+    "location": "Столик в центре зала"
+  },
+  {
+    "name": "Table 3",
+    "seats": 2,
+    "location": "Столик у входа"
+  },
+  {
+    "name": "Table 4",
+    "seats": 8,
+    "location": "Столик у бара"
+  },
+  {
+    "name": "Table 5",
+    "seats": 10,
+    "location": "Столик на террасе"
+  },
+  {
+    "name": "Table 6",
+    "seats": 4,
+    "location": "Столик у стены"
+  },
+  {
+    "name": "Table 7",
+    "seats": 6,
+    "location": "Столик у бармена"
+  },
+  {
+    "name": "Table 8",
+    "seats": 2,
+    "location": "Столик у входа"
+  },
+  {
+    "name": "Table 9",
+    "seats": 8,
+    "location": "Столик у камина"
+  },
+  {
+    "name": "Table 10",
+    "seats": 10,
+    "location": "Столик у балкона"
+  }
+]

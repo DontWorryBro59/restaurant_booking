@@ -22,6 +22,7 @@ def get_time_now() -> datetime:
     new_time = utc_now + timedelta(hours=1)
     return new_time
 
+
 async def test_get_reservations(session):
     """Тестирование получения списка всех резервирований"""
     logger.info("Тестирование получения списка всех резервирований")
@@ -29,39 +30,70 @@ async def test_get_reservations(session):
     assert len(reservations) == 0
     logger.info("✅ Тестирование получения списка всех резервирований успешно пройдено")
 
+
 async def test_create_reservation(session):
     """Тестирование создания нового резервирования"""
     logger.info("Тестирование создания нового резервирования")
-    new_reservation = ReservationCreate(customer_name="John Doe", table_id=1, reservation_time=get_time_now(),
-                                        duration_minutes=60)
-    message = await ReservRepo.create_reservation(new_reservation=new_reservation, session=session)
+    new_reservation = ReservationCreate(
+        customer_name="John Doe",
+        table_id=1,
+        reservation_time=get_time_now(),
+        duration_minutes=60,
+    )
+    message = await ReservRepo.create_reservation(
+        new_reservation=new_reservation, session=session
+    )
     assert message == "Бронирование успешно создано"
     logger.info("✅ Тестирование создания нового резервирования успешно пройдено")
     reservations = await ReservRepo.get_reservations(session=session)
     assert len(reservations) == 1
     logger.info("✅ Тестирование получения списка всех резервирований успешно пройдено")
 
+
 async def test_create_reservation_conflict(session):
     logger.info("Тестирование создания нового резервирования")
-    new_reservation = ReservationCreate(customer_name="John Doe", table_id=1, reservation_time=get_time_now(),
-                                        duration_minutes=60)
-    conflict_reservation = ReservationCreate(customer_name="Jane Doe", table_id=1, reservation_time=get_time_now(),
-                                             duration_minutes=60)
-    message = await ReservRepo.create_reservation(new_reservation=new_reservation, session=session)
+    new_reservation = ReservationCreate(
+        customer_name="John Doe",
+        table_id=1,
+        reservation_time=get_time_now(),
+        duration_minutes=60,
+    )
+    conflict_reservation = ReservationCreate(
+        customer_name="Jane Doe",
+        table_id=1,
+        reservation_time=get_time_now(),
+        duration_minutes=60,
+    )
+    message = await ReservRepo.create_reservation(
+        new_reservation=new_reservation, session=session
+    )
     assert message == "Бронирование успешно создано"
     with pytest.raises(HTTPException) as exc_info:
-        message = await ReservRepo.create_reservation(new_reservation=conflict_reservation, session=session)
+        message = await ReservRepo.create_reservation(
+            new_reservation=conflict_reservation, session=session
+        )
     assert exc_info.value.status_code == 400
-    assert exc_info.value.detail == "Бронирование пересекается с существующим бронированием"
+    assert (
+        exc_info.value.detail
+        == "Бронирование пересекается с существующим бронированием"
+    )
 
 
 async def test_delete_reservation(session):
     logger.info("Тестирование удаления резервирования")
-    new_reservation = ReservationCreate(customer_name="John Doe", table_id=1, reservation_time=get_time_now(),
-                                        duration_minutes=60)
-    message = await ReservRepo.create_reservation(new_reservation=new_reservation, session=session)
+    new_reservation = ReservationCreate(
+        customer_name="John Doe",
+        table_id=1,
+        reservation_time=get_time_now(),
+        duration_minutes=60,
+    )
+    message = await ReservRepo.create_reservation(
+        new_reservation=new_reservation, session=session
+    )
     reservation_id = 1
-    message = await ReservRepo.delete_reservation(reservation_id=reservation_id, session=session)
+    message = await ReservRepo.delete_reservation(
+        reservation_id=reservation_id, session=session
+    )
     reservations = await ReservRepo.get_reservations(session=session)
     assert len(reservations) == 0
     logger.info("✅ Тестирование удаления резервирования успешно пройдено")

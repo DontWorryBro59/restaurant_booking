@@ -15,7 +15,9 @@ def get_time_now() -> datetime:
 
 async def test_get_all_reservations(aclient: AsyncClient):
     """Тестирование получения списка всех бронирований"""
-    logger.info("Тестирование получения списка всех бронирований (эндпоинт /reservations/)")
+    logger.info(
+        "Тестирование получения списка всех бронирований (эндпоинт /reservations/)"
+    )
     response = await aclient.get("/reservations/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -32,7 +34,8 @@ async def test_create_new_reservation(aclient: AsyncClient):
             "table_id": 1,
             "reservation_time": str(get_time_now()),
             "duration_minutes": 15,
-        })
+        },
+    )
     assert response.status_code == 200
     assert response.json()["message"] == "Бронирование успешно создано"
     logger.info("✅ Тестирование создания нового бронирования успешно пройдено")
@@ -48,7 +51,8 @@ async def test_create_new_reservation_conflict(aclient: AsyncClient):
             "table_id": 1,
             "reservation_time": str(get_time_now()),
             "duration_minutes": 15,
-        })
+        },
+    )
     second_response = await aclient.post(
         "/reservations/",
         json={
@@ -56,10 +60,14 @@ async def test_create_new_reservation_conflict(aclient: AsyncClient):
             "table_id": 1,
             "reservation_time": str(get_time_now()),
             "duration_minutes": 15,
-        })
+        },
+    )
 
     assert second_response.status_code == 400
-    assert second_response.json()["detail"] == "Бронирование пересекается с существующим бронированием"
+    assert (
+        second_response.json()["detail"]
+        == "Бронирование пересекается с существующим бронированием"
+    )
 
 
 async def test_create_new_reservation_invalid_data(aclient: AsyncClient):
@@ -73,10 +81,13 @@ async def test_create_new_reservation_invalid_data(aclient: AsyncClient):
             "table_id": table_id,
             "reservation_time": str(get_time_now()),
             "duration_minutes": 15,
-        })
+        },
+    )
     assert response.status_code == 404
     assert response.json()["detail"] == f"Стол с id = {table_id} не найден"
-    logger.info("✅ Тестирование создания нового бронирования с некорректными данными успешно пройдено")
+    logger.info(
+        "✅ Тестирование создания нового бронирования с некорректными данными успешно пройдено"
+    )
 
 
 async def test_delete_reservation(aclient: AsyncClient):
@@ -89,13 +100,17 @@ async def test_delete_reservation(aclient: AsyncClient):
             "table_id": 1,
             "reservation_time": str(get_time_now()),
             "duration_minutes": 15,
-        })
+        },
+    )
 
     logger.info("Тестирование удаления бронирования")
     reservation_id = 1
     response = await aclient.delete(f"/reservations/{reservation_id}")
     assert response.status_code == 200
-    assert response.json()["message"] == f'Бронирование с id = {reservation_id} успешно удалено'
+    assert (
+        response.json()["message"]
+        == f"Бронирование с id = {reservation_id} успешно удалено"
+    )
     logger.info("✅ Тестирование удаления бронирования успешно пройдено")
 
 
@@ -106,4 +121,6 @@ async def test_delete_reservation_not_found(aclient: AsyncClient):
     response = await aclient.delete(f"/reservations/{reserv_id}")
     assert response.status_code == 404
     assert response.json()["detail"] == f"Бронирование с id = {reserv_id} не найдено"
-    logger.info("✅ Тестирование удаления несуществующего бронирования успешно пройдено")
+    logger.info(
+        "✅ Тестирование удаления несуществующего бронирования успешно пройдено"
+    )

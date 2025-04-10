@@ -13,9 +13,7 @@ logger = get_logger(__name__)
 
 
 def get_mock_data(model: str) -> list[dict]:
-    with open(
-            f"app/tests/mock_data/mock_{model}.json", "r", encoding="utf-8"
-    ) as file:
+    with open(f"app/tests/mock_data/mock_{model}.json", "r", encoding="utf-8") as file:
         raw_data = json.load(file)
     return raw_data
 
@@ -83,4 +81,6 @@ async def test_get_table_by_id_not_found(session):
         await TableRepo.delete_table(table_id=table_id, session=session)
     assert exc_info.value.status_code == 404
     assert exc_info.value.detail == f"Стол с id = {table_id} не найден"
-    logger.info("✅ Тестирование получения стола по несуществующему id успешно пройдено")
+    logger.info(
+        "✅ Тестирование получения стола по несуществующему id успешно пройдено"
+    )

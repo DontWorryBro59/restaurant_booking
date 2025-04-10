@@ -28,7 +28,7 @@ async def prepare_database():
 
     def open_mock_json(model: str):
         with open(
-                f"app/tests/mock_data/mock_{model}.json", "r", encoding="utf-8"
+            f"app/tests/mock_data/mock_{model}.json", "r", encoding="utf-8"
         ) as file:
             raw_data = json.load(file)
         return raw_data
@@ -53,7 +53,7 @@ def event_loop():
 @pytest_asyncio.fixture(scope="function")
 async def aclient():
     async with AsyncClient(
-            transport=ASGITransport(app=fastapi_app), base_url="http://test"
+        transport=ASGITransport(app=fastapi_app), base_url="http://test"
     ) as client:
         yield client
 

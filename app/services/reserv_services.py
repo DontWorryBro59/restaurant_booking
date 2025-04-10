@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.custom_logger import get_logger
 from app.models.reservation import ReservationORM
-from app.repositories.tables_repo import TableRepo
+from app.services.tables_services import TableRepo
 from app.schemas.reservations_sch import ReservationRead, ReservationCreate
 
 logger = get_logger(__name__)

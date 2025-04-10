@@ -5,7 +5,7 @@ import pytest
 from fastapi import HTTPException
 
 from app.core.custom_logger import get_logger
-from app.repositories.reserv_repo import ReservRepo
+from app.services.reserv_services import ReservRepo
 from app.schemas.reservations_sch import ReservationCreate
 
 logger = get_logger(__name__)

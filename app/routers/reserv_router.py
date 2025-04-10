@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.database.database_helper import db_helper
-from app.repositories.reserv_repo import ReservRepo
+from app.services.reserv_services import ReservRepo
 from app.schemas.additional_sch import MessageSchema
 from app.schemas.reservations_sch import ReservationCreate, ReservationRead
 

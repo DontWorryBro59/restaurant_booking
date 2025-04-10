@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Path
 
 from app.core.custom_logger import get_logger
 from app.database.database_helper import db_helper
-from app.repositories.tables_repo import TableRepo
+from app.services.tables_services import TableRepo
 from app.schemas.additional_sch import MessageSchema
 from app.schemas.tables_sch import TableCreate, TableRead
 

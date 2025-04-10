@@ -6,8 +6,6 @@ class MessageSchema(BaseModel):
 
     model_config = ConfigDict(
         json_schema_extra={
-            "example": {
-                "message": "Your reservation has been confirmed."
-            }
+            "example": {"message": "Your reservation has been confirmed."}
         }
     )

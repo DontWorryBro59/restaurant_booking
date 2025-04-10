@@ -21,7 +21,7 @@ class ReservationBase(BaseModel):
                 "customer_name": "John Doe",
                 "table_id": 1,
                 "reservation_time": "2025-04-10T18:30:00+00:00",
-                "duration_minutes": 90
+                "duration_minutes": 90,
             }
         }
     )
@@ -58,9 +58,9 @@ class ReservationRead(ReservationBase):
                 "customer_name": "John Doe",
                 "table_id": 1,
                 "reservation_time": "2025-04-10T18:30:00+00:00",
-                "duration_minutes": 90
+                "duration_minutes": 90,
             }
-        }
+        },
     )
 
 
@@ -76,9 +76,7 @@ class ReservationUpdate(ReservationCreate):
                 "customer_name": "Jane Doe",
                 "table_id": 2,
                 "reservation_time": "2025-04-10T19:00:00+00:00",
-                "duration_minutes": 60
+                "duration_minutes": 60,
             }
         }
     )
-
-

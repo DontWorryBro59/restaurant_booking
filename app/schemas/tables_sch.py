@@ -9,11 +9,7 @@ class TableBase(BaseModel):
 
     model_config = ConfigDict(
         json_schema_extra={
-            "example": {
-                "name": "Table 1",
-                "seats": 4,
-                "location": "Near the window"
-            }
+            "example": {"name": "Table 1", "seats": 4, "location": "Near the window"}
         }
     )
 
@@ -32,9 +28,9 @@ class TableRead(TableBase):
                 "id": 1,
                 "name": "Table 1",
                 "seats": 4,
-                "location": "Near the window"
+                "location": "Near the window",
             }
-        }
+        },
     )
 
 
@@ -45,10 +41,6 @@ class TableUpdate(BaseModel):
 
     model_config = ConfigDict(
         json_schema_extra={
-            "example": {
-                "name": "Table 2",
-                "seats": 2,
-                "location": "By the door"
-            }
+            "example": {"name": "Table 2", "seats": 2, "location": "By the door"}
         }
     )

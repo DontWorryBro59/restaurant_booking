@@ -29,7 +29,7 @@ class ReservRepo:
 
     @classmethod
     async def create_reservation(
-        cls, new_reservation: ReservationCreate, session: AsyncSession
+       cls, new_reservation: ReservationCreate, session: AsyncSession
     ) -> str:
         """Создать новое бронирование"""
         logger.info("Создание нового бронирования")
